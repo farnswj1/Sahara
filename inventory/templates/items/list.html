@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+    <a href="{% url 'inventory:item_create' %}">Add Item</a>
+    <table class="table table-sm table-hover mt-3">
+        <thead>
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>Name</b></td>
+                <td><b>Category</b></td>
+                <td><b>Price</b></td>
+                <td><b>Quantity</b></td>
+                <td><b>Options</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                {% if item.quantity == 0 %}
+                    <tr class="bg-danger">
+                {% elif item.quantity <= 3 %}
+                    <tr class="bg-warning">
+                {% else %}
+                    <tr>
+                {% endif %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{% firstof item.category.name "N/A" %}</td>
+                    <td>${{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <a href="{% url 'inventory:item_detail' item.id %}">View</a>
+
+                        {% if user.is_superuser or user.is_staff %}
+                            <a href="{% url 'inventory:item_update' item.id %}">Update</a>
+                            <a href="{% url 'inventory:item_delete' item.id %}">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+    <h5>Item Information</h5>
+    <ul>
+        <li><b>ID:</b> {{ item.id }}</li>
+        <li><b>Name:</b> {{ item.name }}</li>
+        <li><b>Category:</b> {% firstof item.category.name "N/A" %}</li>
+        <li><b>Price:</b> ${{ item.price }}</li>
+        <li><b>Weight:</b> {{ item.weight }} lb(s)</li>
+        <li><b>Quantity:</b> {{ item.quantity }}</li>
+        <li><b>Description:</b> {{ item.description }}</li>
+    </ul>
+    <a href="{% url 'inventory:item_list' %}">Back</a>
+{% endblock content %}

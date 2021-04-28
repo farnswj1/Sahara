@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>Username</b></td>
+                <td><b>Phone Number</b></td>
+                <td><b>Email</b></td>
+                <td><b>Options</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user_ in users %}
+                <tr>
+                    <td>{{ user_.id }}</td>
+                    <td>{{ user_.username }}</td>
+                    <td>{{ user_.phone_number }}</td>
+                    <td>{{ user_.email }}</td>
+                    <td>
+                        <a href="{% url 'users:detail' user_.id %}">View</a>
+                        
+                        {% if user.is_superuser %}
+                            <a href="{% url 'users:update' user_.id %}">Update</a>
+                            <a href="{% url 'users:delete' user_.id %}">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
