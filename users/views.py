@@ -9,11 +9,12 @@ from .filters import UserFilter
 
 
 # Create your views here.
-class UserListView(LoginRequiredMixin, UserPassesTestMixin, FilterView):
+class UserListView(UserPassesTestMixin, FilterView):
     template_name = "users/list.html"
     queryset = User.objects.filter(is_active=True)
     context_object_name = "users"
     filterset_class = UserFilter
+    paginate_by = 10
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
@@ -35,7 +36,7 @@ class UserCreateView(CreateView):
     form_class = UserCreateForm
 
 
-class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class UserUpdateView(UserPassesTestMixin, UpdateView):
     model = User
     template_name = "users/update.html"
     context_object_name = "user_"
@@ -45,7 +46,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user.is_superuser or (self.request.user == self.get_object())
 
 
-class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class UserDeleteView(UserPassesTestMixin, DeleteView):
     model = User
     template_name = "users/delete.html"
     context_object_name = "user_"
