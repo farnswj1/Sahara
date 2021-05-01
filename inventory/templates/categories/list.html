@@ -1,6 +1,8 @@
 {% extends "base/base.html" %}
 
 {% block content %}
+    {% include "base/filter_form.html" %}
+
     <a href="{% url 'inventory:category_create' %}">Add Category</a>
     <table class="table table-sm table-hover">
         <thead>
@@ -25,4 +27,6 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {% include "base/paginator.html" %}
 {% endblock content %}

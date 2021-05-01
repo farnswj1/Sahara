@@ -1,17 +1,19 @@
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
+from django_filters.views import FilterView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from .models import User
 from .forms import UserCreateForm, UserUpdateForm
+from .filters import UserFilter
 
 
 # Create your views here.
-class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class UserListView(LoginRequiredMixin, UserPassesTestMixin, FilterView):
     template_name = "users/list.html"
-    model = User
     queryset = User.objects.filter(is_active=True)
     context_object_name = "users"
+    filterset_class = UserFilter
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
