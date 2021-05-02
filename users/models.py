@@ -126,3 +126,6 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("base:home")
+
+    class Meta:
+        ordering = ("id",)

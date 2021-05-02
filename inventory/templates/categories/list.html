@@ -1,32 +1,39 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-    {% include "base/filter_form.html" %}
-
-    <a href="{% url 'inventory:category_create' %}">Add Category</a>
-    <table class="table table-sm table-hover">
-        <thead>
-            <tr>
-                <td><b>ID</b></td>
-                <td><b>Name</b></td>
-                <td><b>Description</b></td>
-                <td><b>Options</b></td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for category in categories %}
-                <tr>
-                    <td>{{ category.id }}</td>
-                    <td>{{ category.name }}</td>
-                    <td>{{ category.description }}</td>
-                    <td>
-                        <a href="{% url 'inventory:category_update' category.id %}">Update</a>
-                        <a href="{% url 'inventory:category_delete' category.id %}">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    {% include "base/paginator.html" %}
+    <div class="row">
+        <div class="col-4">
+            <div class="container border p-3">
+                <h2>Search Categories</h2>
+                {% include "base/filter_form.html" %}
+            </div>
+        </div>
+        <div class="col-8">
+            <a href="{% url 'inventory:category_create' %}">Add Category</a>
+            <table class="table table-sm table-hover mt-3">
+                <thead>
+                    <tr>
+                        <td><b>ID</b></td>
+                        <td><b>Name</b></td>
+                        <td><b>Description</b></td>
+                        <td><b>Options</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.id }}</td>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.description }}</td>
+                            <td>
+                                <a href="{% url 'inventory:category_update' category.id %}">Update</a>
+                                <a href="{% url 'inventory:category_delete' category.id %}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include "base/paginator.html" %}
+        </div>
+    </div>
 {% endblock content %}

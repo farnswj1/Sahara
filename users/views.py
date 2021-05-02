@@ -1,10 +1,12 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, reverse
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django_filters.views import FilterView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from .models import User
-from .forms import UserCreateForm, UserUpdateForm
+from .forms import UserCreateForm, UserUpdateForm, UserAdminUpdateForm
 from .filters import UserFilter
 
 
@@ -14,7 +16,7 @@ class UserListView(UserPassesTestMixin, FilterView):
     queryset = User.objects.filter(is_active=True)
     context_object_name = "users"
     filterset_class = UserFilter
-    paginate_by = 10
+    paginate_by = 15
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
@@ -30,26 +32,36 @@ class UserDetailView(DetailView):
         return user.is_superuser or user.is_staff or (user == self.get_object())
 
 
-class UserCreateView(CreateView):
+class UserCreateView(SuccessMessageMixin, CreateView):
     template_name = "users/register_or_login.html"
     model = User
     form_class = UserCreateForm
+    success_message = "Your account was created successfully!"
 
 
-class UserUpdateView(UserPassesTestMixin, UpdateView):
+class UserUpdateView(UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = User
     template_name = "users/update.html"
     context_object_name = "user_"
-    form_class = UserUpdateForm
+    success_message = "The account was updated successfully!"
 
     def test_func(self):
         return self.request.user.is_superuser or (self.request.user == self.get_object())
+    
+    def get_form_class(self):
+        user = self.request.user
+        user_ = self.get_object()
+        return UserAdminUpdateForm if user.is_superuser and user != user_ else UserUpdateForm
+    
+    def get_success_url(self):
+        return reverse("users:list")
 
 
 class UserDeleteView(UserPassesTestMixin, DeleteView):
     model = User
     template_name = "users/delete.html"
     context_object_name = "user_"
+    success_message = "The account was deleted successfully!"
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -58,6 +70,7 @@ class UserDeleteView(UserPassesTestMixin, DeleteView):
         user_ = self.get_object()
         user_.is_active = False
         user_.save()
+        messages.success(self.request, self.success_message)
         return redirect("users:list")
 
 

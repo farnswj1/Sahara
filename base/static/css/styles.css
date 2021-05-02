@@ -1,3 +1,15 @@
-main {
-    min-height: calc(100vh - 32px - 56px - 72px);
+.banner-caption {
+    font-size: 40px;
+}
+
+.banner-img {
+    filter: brightness(60%);
+}
+
+.banner-text {
+    font-size: 100px;
+}
+
+.bg-beige {
+    background-color: sandybrown;
 }

@@ -1,0 +1,35 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-4">
+            <div class="container border p-3">
+                <h2>Search Logs</h2>
+                {% include "base/filter_form.html" %}
+            </div>
+        </div>
+        <div class="col-8">
+            <table class="table table-sm table-hover mt-3">
+                <thead>
+                    <tr>
+                        <td><b>Action</b></td>
+                        <td><b>Model Name</b></td>
+                        <td><b>Model ID</b></td>
+                        <td><b>Timestamp</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                        <tr>
+                            <td>{{ log.action }}</td>
+                            <td>{{ log.model_name }}</td>
+                            <td>{{ log.model_id }}</td>
+                            <td>{{ log.timestamp }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include "base/paginator.html" %}
+        </div>
+    </div>
+{% endblock content %}

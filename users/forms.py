@@ -5,16 +5,25 @@ from .models import User
 class UserCreateForm(UserCreationForm):
     class Meta:
         model = User
-        fields = [
+        fields = (
             "username", "password1", "password2", "first_name", "last_name", 
             "email", "phone_number", "street_address", "city", "state", "zipcode"
-        ]
+        )
 
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = [
+        fields = (
             "username", "first_name", "last_name", "email", "phone_number", 
             "street_address", "city", "state", "zipcode"
-        ]
+        )
+
+
+class UserAdminUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            "username", "first_name", "last_name", "email", "phone_number", 
+            "street_address", "city", "state", "zipcode", "is_superuser", "is_staff"
+        )

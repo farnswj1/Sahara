@@ -13,4 +13,9 @@
         <li><b>Email:</b> {{ user_.email }}</li>
     </ul>
     <a href="{% url 'users:list' %}">Back</a>
+    
+    {% if user.is_superuser %}
+        <a href="{% url 'users:update' user_.id %}">Update</a>
+        <a href="{% url 'users:delete' user_.id %}">Delete</a>
+    {% endif %}
 {% endblock content %}
