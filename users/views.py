@@ -17,6 +17,7 @@ class UserListView(UserPassesTestMixin, FilterView):
     context_object_name = "users"
     filterset_class = UserFilter
     paginate_by = 15
+    extra_context = {"title": "List of Accounts"}
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
@@ -26,6 +27,7 @@ class UserDetailView(DetailView):
     template_name = "users/detail.html"
     model = User
     context_object_name = "user_"
+    extra_context = {"title": "Account Information"}
 
     def test_func(self):
         user = self.request.user
@@ -37,6 +39,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     model = User
     form_class = UserCreateForm
     success_message = "Your account was created successfully!"
+    extra_context = {"title": "Register"}
 
 
 class UserUpdateView(UserPassesTestMixin, SuccessMessageMixin, UpdateView):
@@ -44,6 +47,7 @@ class UserUpdateView(UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     template_name = "users/update.html"
     context_object_name = "user_"
     success_message = "The account was updated successfully!"
+    extra_context = {"title": "Update Account"}
 
     def test_func(self):
         return self.request.user.is_superuser or (self.request.user == self.get_object())
@@ -62,6 +66,7 @@ class UserDeleteView(UserPassesTestMixin, DeleteView):
     template_name = "users/delete.html"
     context_object_name = "user_"
     success_message = "The account was deleted successfully!"
+    extra_context = {"title": "Delete Account"}
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -76,6 +81,7 @@ class UserDeleteView(UserPassesTestMixin, DeleteView):
 
 class UserLoginView(LoginView):
     template_name="users/register_or_login.html"
+    extra_context = {"title": "Login"}
 
 
 class UserLogoutView(LogoutView):

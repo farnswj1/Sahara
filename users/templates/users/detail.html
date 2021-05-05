@@ -1,21 +1,25 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-    <h5>User Information</h5>
-    <ul>
-        <li><b>ID:</b> {{ user_.id }}</li>
-        <li><b>Username:</b> {{ user_.username }}</li>
-        <li><b>Name:</b> {{ user_.name }}</li>
-        <li><b>Administator:</b> {{ user_.is_superuser|yesno:"Yes,No" }}</li>
-        <li><b>Staff:</b> {{ user_.is_staff|yesno:"Yes,No" }}</li>
-        <li><b>Address:</b> {{ user_.address }}</li>
-        <li><b>Phone Number:</b> {{ user_.phone_number }}</li>
-        <li><b>Email:</b> {{ user_.email }}</li>
-    </ul>
-    <a href="{% url 'users:list' %}">Back</a>
-    
-    {% if user.is_superuser %}
-        <a href="{% url 'users:update' user_.id %}">Update</a>
-        <a href="{% url 'users:delete' user_.id %}">Delete</a>
-    {% endif %}
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <h2>{{ title }}</h2>
+            <ul>
+                <li><b>ID:</b> {{ user_.id }}</li>
+                <li><b>Username:</b> {{ user_.username }}</li>
+                <li><b>Name:</b> {{ user_.name }}</li>
+                <li><b>Administator:</b> {{ user_.is_superuser|yesno:"Yes,No" }}</li>
+                <li><b>Staff:</b> {{ user_.is_staff|yesno:"Yes,No" }}</li>
+                <li><b>Address:</b> {{ user_.address }}</li>
+                <li><b>Phone Number:</b> {{ user_.phone_number }}</li>
+                <li><b>Email:</b> {{ user_.email }}</li>
+            </ul>
+            <a href="{% url 'users:list' %}">Back</a>
+            
+            {% if user.is_superuser %}
+                <a href="{% url 'users:update' user_.id %}">Update</a>
+                <a href="{% url 'users:delete' user_.id %}">Delete</a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock content %}

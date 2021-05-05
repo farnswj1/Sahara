@@ -8,6 +8,7 @@ class LogListView(UserPassesTestMixin, FilterView):
     context_object_name = "logs"
     filterset_class = LogFilter
     paginate_by = 15
+    extra_context = {"title": "Logs"}
     
     def test_func(self):
         return self.request.user.is_superuser

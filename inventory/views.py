@@ -15,12 +15,14 @@ class ItemListView(FilterView):
     context_object_name = "items"
     filterset_class = ItemFilter
     paginate_by = 15
+    extra_context = {"title": "List of Items"}
 
 
 class ItemDetailView(DetailView):
     template_name = "items/detail.html"
     model = Item
     context_object_name = "item"
+    extra_context = {"title": "Item Information"}
 
 
 class ItemCreateView(UserIsAdminOrStaffMixin, SuccessMessageMixin, CreateView):
@@ -28,6 +30,7 @@ class ItemCreateView(UserIsAdminOrStaffMixin, SuccessMessageMixin, CreateView):
     model = Item
     form_class = ItemForm
     success_message = "The item was created successfully!"
+    extra_context = {"title": "New Item"}
 
 
 class ItemUpdateView(UserIsAdminOrStaffMixin, SuccessMessageMixin, UpdateView):
@@ -35,6 +38,7 @@ class ItemUpdateView(UserIsAdminOrStaffMixin, SuccessMessageMixin, UpdateView):
     model = Item
     form_class = ItemForm
     success_message = "The item was updated successfully!"
+    extra_context = {"title": "Update Item"}
 
 
 class ItemDeleteView(UserIsAdminOrStaffMixin, DeleteView):
@@ -42,6 +46,7 @@ class ItemDeleteView(UserIsAdminOrStaffMixin, DeleteView):
     model = Item
     success_url = reverse_lazy("inventory:item_list")
     success_message = "The item was deleted successfully!"
+    extra_context = {"title": "Delete Item"}
 
     def get_success_url(self):
         messages.success(self.request, self.success_message)
@@ -53,6 +58,7 @@ class CategoryListView(UserIsAdminOrStaffMixin, FilterView):
     context_object_name = "categories"
     filterset_class = CategoryFilter
     paginate_by = 15
+    extra_context = {"title": "List of Categories"}
 
 
 class CategoryCreateView(UserIsAdminOrStaffMixin, SuccessMessageMixin, CreateView):
@@ -60,6 +66,7 @@ class CategoryCreateView(UserIsAdminOrStaffMixin, SuccessMessageMixin, CreateVie
     model = Category
     form_class = CategoryForm
     success_message = "The category was created successfully!"
+    extra_context = {"title": "New Category"}
 
 
 class CategoryUpdateView(UserIsAdminOrStaffMixin, SuccessMessageMixin, UpdateView):
@@ -67,6 +74,7 @@ class CategoryUpdateView(UserIsAdminOrStaffMixin, SuccessMessageMixin, UpdateVie
     model = Category
     form_class = CategoryForm
     success_message = "The category was updated successfully!"
+    extra_context = {"title": "Update Category"}
 
 
 class CategoryDeleteView(UserIsAdminOrStaffMixin, DeleteView):
@@ -74,6 +82,7 @@ class CategoryDeleteView(UserIsAdminOrStaffMixin, DeleteView):
     model = Category
     success_url = reverse_lazy("inventory:category_list")
     success_message = "The category was deleted successfully!"
+    extra_context = {"title": "Delete Category"}
 
     def get_success_url(self):
         messages.success(self.request, self.success_message)
